@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Лихачев Алексей — специалист по гидравлическому оборудованию, ООО «ПромГидравлика-С», г. Ижевск. Производство гидроцилиндров, гидростанций, металлообработка, сервис." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23060f1c'/><rect x='4' y='13' width='16' height='6' rx='2' fill='none' stroke='%230096c7' stroke-width='2'/><line x1='18' y1='16' x2='28' y2='16' stroke='%230096c7' stroke-width='2.5'/><circle cx='28' cy='16' r='2' fill='%23e07000'/></svg>" type="image/svg+xml">
+  <title>Лихачев Алексей — ПромГидравлика-С</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --accent:  #0096c7;
+      --accent2: #e07000;
+      --glow:    rgba(0, 150, 199, 0.32);
+      --card-bg: rgba(6, 18, 38, 0.78);
+      --border:  rgba(0, 100, 180, 0.22);
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      background-color: #060f1c;
+      color: #cce0f0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      overflow-x: hidden;
+    }
+
+    /* ══════════════════════════════
+       ФИРМЕННЫЙ ФОН
+    ══════════════════════════════ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background-image:
+        linear-gradient(rgba(0, 100, 180, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 100, 180, 0.10) 1px, transparent 1px),
+        linear-gradient(rgba(0, 80, 150, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 80, 150, 0.05) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    }
+    .bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(0, 150, 200, 0.12) 1.5px, transparent 1.5px);
+      background-size: 24px 24px;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: float 14s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(0, 110, 200, 0.22), transparent 70%);
+      top: -120px; left: -120px;
+    }
+    .orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(200, 90, 0, 0.18), transparent 70%);
+      bottom: -100px; right: -100px;
+      animation-delay: -7s;
+    }
+    .orb-3 {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(0, 60, 130, 0.14), transparent 70%);
+      top: 40%; left: 55%;
+      transform: translate(-50%, -50%);
+      animation-delay: -3.5s;
+    }
+    @keyframes float {
+      0%,100% { transform: translate(0,0) scale(1); }
+      33%      { transform: translate(30px,-25px) scale(1.04); }
+      66%      { transform: translate(-25px,18px) scale(0.97); }
+    }
+
+    .bg-schematic {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+    }
+    .pipe-static { fill:none; stroke:rgba(0,110,190,.18); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
+    .pipe-static.ret { stroke:rgba(180,85,0,.14); stroke-dasharray:14 8; }
+    .pipe-flow { fill:none; stroke:rgba(0,170,230,.45); stroke-width:2; stroke-linecap:round; stroke-dasharray:10 18; animation:flowAnim 1.8s linear infinite; }
+    .pipe-flow.ret { stroke:rgba(224,120,0,.38); animation:flowAnim 2.4s linear infinite reverse; }
+    @keyframes flowAnim { to { stroke-dashoffset:-56; } }
+    .sym { fill:none; stroke:rgba(0,120,200,.22); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+    .sym.orange { stroke:rgba(200,100,0,.2); }
+    .wm { font-family:Arial,sans-serif; font-size:88px; font-weight:900; fill:rgba(0,80,160,.055); letter-spacing:.04em; text-anchor:middle; dominant-baseline:middle; user-select:none; }
+    .corner-mark { fill:none; stroke:rgba(0,130,200,.25); stroke-width:1.5; stroke-linecap:round; }
+    .gauge-dot { fill:rgba(0,160,230,.55); animation:pulseDot 2.5s ease-in-out infinite; }
+    .gauge-dot.orange { fill:rgba(220,110,0,.55); animation-delay:-1.2s; }
+    @keyframes pulseDot { 0%,100%{r:4;opacity:.55;} 50%{r:6;opacity:.9;} }
+
+    /* ══════════════════════════════
+       КАРТОЧКА
+    ══════════════════════════════ */
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 40px 44px 40px;
+      max-width: 580px;
+      width: 100%;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      box-shadow:
+        0 0 0 1px rgba(0,130,200,.07) inset,
+        0 40px 80px rgba(0,0,0,.65),
+        0 0 60px rgba(0,100,180,.08);
+      animation: cardIn .85s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes cardIn {
+      from { opacity:0; transform:translateY(44px) scale(.96); }
+      to   { opacity:1; transform:translateY(0)    scale(1); }
+    }
+    .card::before {
+      content:'';
+      position:absolute;
+      top:0; left:44px; right:44px;
+      height:2px;
+      background:linear-gradient(90deg, transparent, var(--accent) 25%, #00bcd4 50%, var(--accent2) 75%, transparent);
+      border-radius:0 0 4px 4px;
+      box-shadow:0 0 16px rgba(0,150,200,.4);
+    }
+
+    /* ── Верхний блок: компания + контакты ── */
+    .company-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .company-badge {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 9px;
+    }
+    .company-badge::before,
+    .company-badge::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      max-width: 50px;
+      background: linear-gradient(90deg, transparent, rgba(224,112,0,.38));
+    }
+    .company-badge::after {
+      background: linear-gradient(270deg, transparent, rgba(224,112,0,.38));
+    }
+    .company-contacts {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .company-contacts a {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: rgba(0, 190, 230, 0.72);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: color .2s;
+    }
+    .company-contacts a:hover { color: var(--accent); }
+    .company-contacts a svg { flex-shrink: 0; opacity: .8; }
+    .company-hours {
+      font-size: 10.5px;
+      color: rgba(140, 190, 230, 0.38);
+      letter-spacing: 0.04em;
+      margin-top: 7px;
+    }
+
+    /* ── Аватар с фото ── */
+    .avatar-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .avatar {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #071630, #0c2244);
+      border: 3px solid rgba(0, 150, 200, 0.55);
+      box-shadow:
+        0 0 0 5px rgba(0, 100, 180, 0.12),
+        0 0 0 8px rgba(0, 80, 150, 0.07),
+        0 0 32px rgba(0, 150, 200, 0.3);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: pulse-ring 3.5s ease-in-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%,100% {
+        box-shadow:
+          0 0 0 5px rgba(0,100,180,.12),
+          0 0 0 8px rgba(0,80,150,.07),
+          0 0 32px rgba(0,150,200,.28);
+      }
+      50% {
+        box-shadow:
+          0 0 0 6px rgba(0,120,200,.2),
+          0 0 0 11px rgba(0,80,150,.09),
+          0 0 48px rgba(0,150,200,.48);
+      }
+    }
+    .avatar-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+
+    /* ── Имя ── */
+    .name {
+      text-align: center;
+      font-size: clamp(21px, 5vw, 28px);
+      font-weight: 700;
+      letter-spacing: -.4px;
+      line-height: 1.25;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #fff 0%, var(--accent) 45%, #00d4e8 70%, var(--accent2) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 16px rgba(0,150,200,.42));
+      animation: shimmer 5s linear infinite;
+      background-size: 200% 200%;
+    }
+    @keyframes shimmer {
+      0%   { background-position:0% 50%; }
+      50%  { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+
+    /* ── Разделитель ── */
+    .divider {
+      width: 64px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      margin: 12px auto 14px;
+      box-shadow: 0 0 10px var(--glow);
+    }
+
+    /* ── Специализация ── */
+    .spec {
+      text-align: center;
+      font-size: clamp(11px, 2.8vw, 13px);
+      color: rgba(180,210,240,.6);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      font-weight: 500;
+      margin-bottom: 24px;
+      line-height: 1.65;
+    }
+    .spec-icon { display:inline-block; margin-right:6px; vertical-align:middle; color:var(--accent); opacity:.75; }
+
+    /* ── Секция-заголовок ── */
+    .section-title {
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #8B1A2A;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    /* ── Направления деятельности (2×2) ── */
+    .activities {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-bottom: 12px;
+    }
+    .activity-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      background: rgba(0, 50, 100, 0.2);
+      border: 1px solid rgba(0, 100, 180, 0.16);
+      border-radius: 12px;
+      padding: 14px 10px;
+      transition: border-color .3s, background .3s, box-shadow .3s;
+      cursor: default;
+    }
+    .activity-item:hover {
+      border-color: rgba(0, 150, 200, 0.42);
+      background: rgba(0, 80, 150, 0.26);
+      box-shadow: 0 0 14px rgba(0, 130, 200, 0.1);
+    }
+    .activity-icon { color: var(--accent); }
+    .activity-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(190, 225, 255, 0.88);
+      line-height: 1.3;
+    }
+
+    /* ── Соцсети ── */
+    .socials {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 26px;
+    }
+    .social-link {
+      display: flex; align-items: center; justify-content: center;
+      width: 50px; height: 50px;
+      border-radius: 15px;
+      background: rgba(0, 40, 80, 0.3);
+      border: 1px solid rgba(0, 100, 180, 0.2);
+      color: rgba(180, 220, 255, 0.6);
+      text-decoration: none;
+      transition: all .3s cubic-bezier(.34,1.56,.64,1);
+      position: relative; overflow: hidden;
+    }
+    .social-link::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0; transition: opacity .3s; border-radius: inherit;
+    }
+    .social-link.tg::before { background:linear-gradient(135deg,rgba(0,136,204,.35),rgba(0,170,255,.12)); }
+    .social-link.vk::before { background:linear-gradient(135deg,rgba(0,119,255,.3),rgba(71,145,219,.12)); }
+    .social-link.em::before { background:linear-gradient(135deg,rgba(224,112,0,.3),rgba(255,160,0,.12)); }
+    .social-link:hover { transform:translateY(-4px) scale(1.1); border-color:rgba(255,255,255,.22); color:#fff; }
+    .social-link:hover::before { opacity:1; }
+    .social-link.tg:hover { box-shadow:0 8px 24px rgba(0,136,204,.4); }
+    .social-link.vk:hover { box-shadow:0 8px 24px rgba(0,119,255,.4); }
+    .social-link.em:hover { box-shadow:0 8px 24px rgba(224,112,0,.4); }
+    .social-link svg { position:relative; z-index:1; transition:transform .3s; }
+    .social-link:hover svg { transform:scale(1.12); }
+    .social-link[data-tip]::after {
+      content: attr(data-tip);
+      position: absolute; bottom:calc(100% + 8px); left:50%;
+      transform:translateX(-50%) translateY(4px);
+      background:rgba(4,14,30,.95); border:1px solid rgba(0,100,180,.25);
+      color:rgba(200,230,255,.85); font-size:11px; padding:4px 10px;
+      border-radius:8px; white-space:nowrap; opacity:0; pointer-events:none;
+      transition:opacity .2s,transform .2s;
+    }
+    .social-link[data-tip]:hover::after { opacity:1; transform:translateX(-50%) translateY(0); }
+
+    /* ── Кнопка CTA ── */
+    .btn-wrap { display:flex; justify-content:center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, var(--accent) 0%, #00bcd4 50%, var(--accent2) 100%);
+      background-size: 200% 200%;
+      color: #fff; font-size: 14px; font-weight: 600; letter-spacing: .03em;
+      border: none; border-radius: 13px; cursor: pointer; text-decoration: none;
+      position: relative; overflow: hidden;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      box-shadow: 0 4px 20px rgba(0,150,200,.3);
+      animation: btn-bg 4s linear infinite;
+    }
+    @keyframes btn-bg {
+      0%   { background-position:0% 50%; }
+      50%  { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+    .btn::before {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);
+      opacity:0; transition:opacity .3s;
+    }
+    .btn:hover { transform:translateY(-3px) scale(1.04); box-shadow:0 14px 38px rgba(0,150,200,.45),0 4px 14px rgba(224,112,0,.3); }
+    .btn:hover::before { opacity:1; }
+    .btn:active { transform:translateY(-1px) scale(1.01); }
+    .btn .ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,.28); transform:scale(0); animation:ripple .6s linear; pointer-events:none; }
+    @keyframes ripple { to { transform:scale(4); opacity:0; } }
+    .btn-icon { transition:transform .4s cubic-bezier(.34,1.56,.64,1); }
+    .btn:hover .btn-icon { transform:translateX(5px) rotate(-12deg); }
+
+    /* ── Футер ── */
+    .footer {
+      margin-top: 24px; text-align: center;
+      font-size: 10.5px; color: rgba(100,150,200,.28); letter-spacing:.05em;
+    }
+
+    /* ── Адаптив ── */
+    @media (max-width: 500px) {
+      .card { padding:32px 18px 30px; border-radius:20px; }
+      .card::before { left:18px; right:18px; }
+      .activities { grid-template-columns:1fr; }
+      .company-contacts { gap:12px; flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════
+       ФИРМЕННЫЙ ФОН
+  ════════════════════════════ -->
+  <div class="bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <svg class="bg-schematic" viewBox="0 0 1400 800"
+         preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg">
+
+      <text class="wm" x="700" y="400" transform="rotate(-10,700,400)">
+        ПромГидравлика-С
+      </text>
+
+      <!-- Трубопроводы -->
+      <path class="pipe-static"     d="M 60 220 H 1340"/>
+      <path class="pipe-flow"       d="M 60 220 H 1340"/>
+      <path class="pipe-static ret" d="M 60 580 H 1340"/>
+      <path class="pipe-flow   ret" d="M 1340 580 H 60"/>
+      <path class="pipe-static"     d="M 160 220 V 580"/>
+      <path class="pipe-flow"       d="M 160 220 V 580"/>
+      <path class="pipe-static"     d="M 1180 220 V 380"/>
+      <path class="pipe-flow"       d="M 1180 220 V 380"/>
+      <path class="pipe-static"     d="M 1180 480 V 580"/>
+      <path class="pipe-flow ret"   d="M 1180 580 V 480"/>
+      <path class="pipe-static"     d="M 700 220 V 290"/>
+      <path class="pipe-flow"       d="M 700 220 V 290"/>
+      <path class="pipe-static"     d="M 500 220 V 160"/>
+      <path class="pipe-flow"       d="M 500 220 V 160"/>
+
+      <!-- Компоненты -->
+      <g class="sym" transform="translate(100,565)">
+        <rect x="-40" y="-10" width="80" height="40" rx="2"/>
+        <line x1="-50" y1="-10" x2="50" y2="-10"/>
+        <line x1="-30" y1="5"   x2="30" y2="5"/>
+        <line x1="-20" y1="18"  x2="20" y2="18"/>
+      </g>
+      <g class="sym" transform="translate(160,490)">
+        <rect x="-18" y="-32" width="36" height="64" rx="4"/>
+        <line x1="-12" y1="-14" x2="12" y2="-14"/>
+        <line x1="-10" y1="-2"  x2="10" y2="-2"/>
+        <line x1="-7"  y1="10"  x2="7"  y2="10"/>
+      </g>
+      <g class="sym" transform="translate(160,360)">
+        <circle r="38"/>
+        <path d="M -14 12 L 22 0 L -14 -12 Z"/>
+        <line x1="0" y1="-38" x2="0" y2="-48"/>
+        <line x1="0" y1="38"  x2="0" y2="48"/>
+      </g>
+      <g class="sym orange" transform="translate(340,220)">
+        <path d="M 0 -28 L 24 0 L 0 28 L -24 0 Z"/>
+        <line x1="-40" y1="0" x2="-24" y2="0"/>
+        <line x1="24"  y1="0" x2="40"  y2="0"/>
+        <path d="M 18 -22 Q 36 -10 18 22" stroke-dasharray="4 4"/>
+      </g>
+      <g class="sym" transform="translate(700,320)">
+        <rect x="-80" y="-28" width="56"  height="56" rx="3"/>
+        <rect x="-24" y="-28" width="48"  height="56" rx="3"/>
+        <rect x=" 24" y="-28" width="56"  height="56" rx="3"/>
+        <line x1="-18" y1="-10" x2="18" y2="-10"/>
+        <line x1="-18" y1=" 10" x2="18" y2=" 10"/>
+        <path d="M -80 0 q -8 -6 -16 0 q -8 6 -16 0"/>
+        <path d="M  80 0 q  8 -6  16 0 q  8 6  16 0"/>
+      </g>
+      <g class="sym" transform="translate(1180,430)">
+        <rect x="-55" y="-28" width="110" height="56" rx="4"/>
+        <rect x="-10" y="-28" width="20"  height="56"/>
+        <line x1="10" y1="0" x2="80" y2="0" stroke-width="3"/>
+        <circle cx="80" cy="0" r="10"/>
+        <line x1="-55" y1="-28" x2="-55" y2="28" stroke-width="3"/>
+      </g>
+      <g class="sym" transform="translate(950,220)">
+        <rect x="-28" y="-20" width="56" height="40" rx="3"/>
+        <line x1="-14" y1="-8" x2="14" y2="8"/>
+        <path d="M 0 -16 L 14 0 L 0 16 Z"/>
+        <line x1="14" y1="-16" x2="14" y2="16"/>
+      </g>
+      <g class="sym" transform="translate(500,135)">
+        <circle r="26"/>
+        <path d="M 0 -20 A 20 20 0 0 1 17 10" stroke-dasharray="3 5"/>
+        <path d="M 0 0 L -10 -14"/>
+        <circle r="3" fill="rgba(0,120,200,.22)"/>
+      </g>
+
+      <!-- Точки соединений -->
+      <circle class="gauge-dot"        cx="160"  cy="220" r="4"/>
+      <circle class="gauge-dot"        cx="160"  cy="580" r="4"/>
+      <circle class="gauge-dot"        cx="700"  cy="220" r="4"/>
+      <circle class="gauge-dot orange" cx="1180" cy="220" r="4"/>
+      <circle class="gauge-dot orange" cx="1180" cy="580" r="4"/>
+      <circle class="gauge-dot orange" cx="340"  cy="220" r="4"/>
+
+      <!-- Угловые маркеры -->
+      <g class="corner-mark">
+        <line x1="20" y1="60" x2="20" y2="20"/><line x1="20" y1="20" x2="60" y2="20"/>
+        <line x1="10" y1="20" x2="30" y2="20" opacity=".5"/><line x1="20" y1="10" x2="20" y2="30" opacity=".5"/>
+      </g>
+      <g class="corner-mark">
+        <line x1="1380" y1="60" x2="1380" y2="20"/><line x1="1380" y1="20" x2="1340" y2="20"/>
+        <line x1="1370" y1="20" x2="1390" y2="20" opacity=".5"/><line x1="1380" y1="10" x2="1380" y2="30" opacity=".5"/>
+      </g>
+      <g class="corner-mark">
+        <line x1="20" y1="740" x2="20" y2="780"/><line x1="20" y1="780" x2="60" y2="780"/>
+        <line x1="10" y1="780" x2="30" y2="780" opacity=".5"/><line x1="20" y1="770" x2="20" y2="790" opacity=".5"/>
+      </g>
+      <g class="corner-mark">
+        <line x1="1380" y1="740" x2="1380" y2="780"/><line x1="1380" y1="780" x2="1340" y2="780"/>
+        <line x1="1370" y1="780" x2="1390" y2="780" opacity=".5"/><line x1="1380" y1="770" x2="1380" y2="790" opacity=".5"/>
+      </g>
+
+      <!-- Штамп -->
+      <g class="corner-mark" opacity=".6">
+        <rect x="1160" y="700" width="220" height="70" rx="2"/>
+        <line x1="1160" y1="720" x2="1380" y2="720"/>
+        <line x1="1260" y1="720" x2="1260" y2="770"/>
+        <text x="1200" y="714" font-size="9" fill="rgba(0,130,200,.35)" font-family="Arial">ПромГидравлика-С</text>
+        <text x="1170" y="745" font-size="8" fill="rgba(0,130,200,.25)" font-family="Arial">Схема гидравлическая</text>
+        <text x="1170" y="758" font-size="8" fill="rgba(0,130,200,.25)" font-family="Arial">принципиальная</text>
+        <text x="1270" y="745" font-size="8" fill="rgba(0,130,200,.25)" font-family="Arial">Лист 1/1</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ════════════════════════════
+       КАРТОЧКА
+  ════════════════════════════ -->
+  <div class="card">
+
+    <!-- Компания + контакты -->
+    <div class="company-header">
+      <div class="company-badge">ООО «ПромГидравлика-С»</div>
+      <div class="company-contacts">
+        <a href="http://www.p-gidravlika.ru" target="_blank">
+          <!-- Globe icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+          www.p-gidravlika.ru
+        </a>
+        <a href="tel:+73412775704">
+          <!-- Phone icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+          +7 (3412) 77-57-04
+        </a>
+        <a href="mailto:info@p-gidravlika.ru">
+          <!-- Email icon -->
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          info@p-gidravlika.ru
+        </a>
+      </div>
+      <div class="company-hours">8:30 — 17:00 · Пн–Пт</div>
+    </div>
+
+    <!-- Фото -->
+    <div class="avatar-wrap">
+      <div class="avatar">
+        <img src="Фото Лихачев А. В.jpg"
+             alt="Лихачев Алексей"
+             class="avatar-img">
+      </div>
+    </div>
+
+    <!-- Имя -->
+    <h1 class="name">Лихачев Алексей</h1>
+
+    <div class="divider"></div>
+
+    <!-- Специализация -->
+    <p class="spec">
+      <span class="spec-icon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.92c.04-.33.07-.67.07-1.08s-.03-.75-.07-1.08l2.32-1.82c.21-.16.27-.45.13-.69l-2.2-3.81c-.13-.24-.41-.32-.65-.24l-2.74 1.1c-.57-.44-1.18-.8-1.86-1.07L14.5 2.42c-.04-.26-.27-.42-.5-.42h-4c-.23 0-.46.16-.5.42L9.13 5.09c-.68.27-1.29.63-1.86 1.07L4.53 5.06c-.24-.08-.52 0-.65.24L1.68 9.11c-.14.24-.08.53.13.69l2.32 1.82c-.04.33-.07.67-.07 1.08s.03.75.07 1.08L1.81 15.6c-.21.16-.27.45-.13.69l2.2 3.81c.13.24.41.32.65.24l2.74-1.1c.57.44 1.18.8 1.86 1.07l.42 2.67c.04.26.27.42.5.42h4c.23 0 .46-.16.5-.42l.42-2.67c.68-.27 1.29-.63 1.86-1.07l2.74 1.1c.24.08.52 0 .65-.24l2.2-3.81c.14-.24.08-.53-.13-.69l-2.32-1.82z"/>
+        </svg>
+      </span>
+      Проектирование и производство<br>гидравлического оборудования
+    </p>
+
+    <!-- Направления деятельности -->
+    <p class="section-title">Направления деятельности</p>
+    <div class="activities">
+
+      <!-- Гидроцилиндры -->
+      <div class="activity-item">
+        <span class="activity-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <rect x="2" y="9" width="14" height="6" rx="2"/>
+            <line x1="4"  y1="9" x2="4"  y2="15"/>
+            <line x1="14" y1="12" x2="22" y2="12" stroke-width="2.5"/>
+            <circle cx="22" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+          </svg>
+        </span>
+        <span class="activity-label">Гидроцилиндры</span>
+      </div>
+
+      <!-- Гидростанции -->
+      <div class="activity-item">
+        <span class="activity-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+            <path d="M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/>
+          </svg>
+        </span>
+        <span class="activity-label">Гидростанции</span>
+      </div>
+
+      <!-- Металлообработка -->
+      <div class="activity-item">
+        <span class="activity-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </span>
+        <span class="activity-label">Металлообработка</span>
+      </div>
+
+      <!-- Сервисный центр -->
+      <div class="activity-item">
+        <span class="activity-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </span>
+        <span class="activity-label">Сервисный центр гидравлики</span>
+      </div>
+
+    </div>
+
+    <!-- Соцсети -->
+    <div class="socials">
+
+      <a href="https://t.me/AlexeyLihachev" target="_blank" class="social-link tg" data-tip="Telegram">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z"/>
+        </svg>
+      </a>
+
+      <a href="https://vk.com/id7145646?t2fs=4a499f44388387dcd1_3" target="_blank" class="social-link vk" data-tip="ВКонтакте">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.391 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.745-.576.745z"/>
+        </svg>
+      </a>
+
+      <a href="mailto:info@p-gidravlika.ru" class="social-link em" data-tip="Email">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+      </a>
+
+    </div>
+
+    <!-- Кнопка -->
+    <div class="btn-wrap">
+      <a href="https://t.me/AlexeyLihachev" target="_blank" class="btn" id="ctaBtn">
+        <span class="btn-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </span>
+        Написать мне
+      </a>
+    </div>
+
+    <div class="footer">
+      г. Ижевск, ул. Салютовская 19/1 · ИНН 1841046647<br>
+      © 2025 · ООО «ПромГидравлика-С» · Лихачев А.В.
+    </div>
+
+  </div>
+
+  <!-- Yandex.Metrika counter — замените XXXXXXXX на номер вашего счётчика -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(XXXXXXXX,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/XXXXXXXX" style="position:absolute; left:-9999px;" alt=""/></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <script>
+    const btn = document.getElementById('ctaBtn');
+    btn.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      const rect = btn.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
+
+    const card = document.querySelector('.card');
+    document.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 768) return;
+      const dx = (e.clientX - window.innerWidth  / 2) / (window.innerWidth  / 2);
+      const dy = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      card.style.transform = `perspective(900px) rotateY(${dx*4}deg) rotateX(${-dy*4}deg)`;
+    });
+    document.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(900px) rotateY(0) rotateX(0)';
+    });
+  </script>
+
+</body>
+</html>

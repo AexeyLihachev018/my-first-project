@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Производство гидроцилиндров под заказ — ООО «ПромГидравлика-С», г. Ижевск. Рабочее давление до 40 МПа, диаметр 40–500 мм, по чертежу заказчика. Импортозамещение." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23060f1c'/><rect x='4' y='13' width='16' height='6' rx='2' fill='none' stroke='%230096c7' stroke-width='2'/><line x1='18' y1='16' x2='28' y2='16' stroke='%230096c7' stroke-width='2.5'/><circle cx='28' cy='16' r='2' fill='%23e07000'/></svg>" type="image/svg+xml">
+  <title>Гидроцилиндры — ПромГидравлика-С</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:   #0096c7;
+      --orange: #e07000;
+      --cherry: #8B1A2A;
+      --bg:     #050d1a;
+      --text:   #cce0f0;
+      --dim:    rgba(180, 210, 240, 0.58);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Blueprint grid overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,100,180,.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,100,180,.09) 1px, transparent 1px),
+        linear-gradient(rgba(0,80,150,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,80,150,.04) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    }
+
+    /* Ambient glow orbs */
+    .orb {
+      position: fixed; border-radius: 50%;
+      filter: blur(110px); pointer-events: none; z-index: 0;
+      animation: orb-float 16s ease-in-out infinite;
+    }
+    .orb-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(0,100,200,.16), transparent 70%);
+      top: -160px; left: -160px;
+    }
+    .orb-2 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(200,80,0,.13), transparent 70%);
+      bottom: -120px; right: -120px;
+      animation-delay: -8s;
+    }
+    @keyframes orb-float {
+      0%,100% { transform: translate(0,0); }
+      50%      { transform: translate(28px,-28px); }
+    }
+
+    /* Layout */
+    .wrap {
+      position: relative; z-index: 1;
+      max-width: 1080px; margin: 0 auto; padding: 0 28px;
+    }
+
+    /* ══════════ NAV ══════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(5,13,26,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0,100,180,.14);
+    }
+    .nav-inner {
+      max-width: 1080px; margin: 0 auto; padding: 0 28px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-brand {
+      font-size: 12.5px; font-weight: 800;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--orange); text-decoration: none;
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 12px; color: rgba(0,190,230,.65); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--blue); }
+
+    /* ══════════ HERO ══════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 0 64px;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 60px; align-items: center;
+    }
+
+    /* Pill tag */
+    .tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(0,100,180,.12);
+      border: 1px solid rgba(0,150,200,.24);
+      border-radius: 100px; padding: 6px 16px;
+      font-size: 10.5px; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--blue);
+      margin-bottom: 26px;
+      animation: fadeUp .7s ease both;
+    }
+    .tag-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue);
+      animation: blink 2.2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.25;} }
+
+    .hero-title {
+      font-size: clamp(36px,6vw,66px);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -1.5px;
+      margin-bottom: 22px;
+      background: linear-gradient(135deg, #fff 0%, var(--blue) 42%, #00d8ee 65%, var(--orange) 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeUp .7s .1s ease both, shimmer 5s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-desc {
+      font-size: clamp(14px,2.2vw,17px);
+      color: var(--dim); line-height: 1.75;
+      max-width: 540px; margin-bottom: 38px;
+      animation: fadeUp .7s .2s ease both;
+    }
+
+    .hero-btns {
+      display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+      animation: fadeUp .7s .3s ease both;
+    }
+
+    /* ── Pulsing CTA button ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 38px;
+      background: linear-gradient(135deg, var(--blue) 0%, #00bcd4 50%, var(--orange) 100%);
+      background-size: 200% 200%;
+      color: #fff; font-size: 14.5px; font-weight: 700;
+      letter-spacing: .03em; text-decoration: none; border: none;
+      border-radius: 14px; cursor: pointer;
+      position: relative; overflow: hidden;
+      animation: btn-bg 4s linear infinite;
+      transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s;
+      box-shadow: 0 4px 24px rgba(0,150,200,.28);
+    }
+    @keyframes btn-bg {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    /* Pulse ring */
+    .btn::after {
+      content: '';
+      position: absolute; inset: -5px;
+      border-radius: 18px;
+      border: 2px solid rgba(0,200,230,.55);
+      animation: pulse-ring 2.2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%   { transform: scale(1);    opacity: .7; }
+      100% { transform: scale(1.14); opacity: 0; }
+    }
+    .btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg,rgba(255,255,255,.18),transparent);
+      opacity: 0; transition: opacity .3s;
+    }
+    .btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 16px 44px rgba(0,150,200,.48),0 4px 16px rgba(224,112,0,.28); }
+    .btn:hover::before { opacity: 1; }
+    .btn:active { transform: translateY(-1px) scale(1.01); }
+    .btn .ripple { position:absolute; border-radius:50%; background:rgba(255,255,255,.28); transform:scale(0); animation:ripple .6s linear; pointer-events:none; }
+    @keyframes ripple { to { transform:scale(4); opacity:0; } }
+    .btn-icon { transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+    .btn:hover .btn-icon { transform: translateX(5px); }
+
+    .btn-ghost {
+      font-size: 13px; color: rgba(0,190,230,.65);
+      text-decoration: none; display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+    }
+    .btn-ghost:hover { color: var(--blue); }
+
+    /* Hero visual card */
+    .hero-visual {
+      animation: fadeUp .7s .15s ease both;
+    }
+    .hero-card {
+      background: rgba(0,25,60,.6);
+      border: 1px solid rgba(0,100,180,.22);
+      border-radius: 22px; padding: 36px;
+      position: relative; overflow: hidden;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top:0; left:10%; right:10%; height:2px;
+      background: linear-gradient(90deg, transparent, var(--blue) 30%, #00d8ee 50%, var(--orange) 70%, transparent);
+      box-shadow: 0 0 18px rgba(0,150,200,.4);
+    }
+    .hc-label {
+      font-size: 10px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--orange);
+      font-weight: 700; margin-bottom: 18px;
+    }
+    .hc-spec {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .hc-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 11px 14px;
+      background: rgba(0,50,100,.2);
+      border: 1px solid rgba(0,100,180,.14);
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .hc-key { color: var(--dim); }
+    .hc-val { color: #e8f4ff; font-weight: 600; }
+    .hc-val.accent { color: var(--blue); }
+    .hc-divider { height:1px; background:rgba(0,100,180,.14); margin: 4px 0; }
+    .hc-badge {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 18px; padding: 10px 14px;
+      background: rgba(139,26,42,.12);
+      border: 1px solid rgba(139,26,42,.25);
+      border-radius: 10px;
+      font-size: 12px; color: rgba(220,150,160,.85);
+    }
+    .hc-badge svg { flex-shrink:0; color: var(--cherry); }
+
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(30px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+
+    /* ══════════ DIVIDER ══════════ */
+    .hr {
+      height:1px;
+      background:linear-gradient(90deg,transparent,rgba(0,100,180,.28),transparent);
+      margin:0; position:relative; z-index:1;
+    }
+
+    /* ══════════ SECTIONS ══════════ */
+    .section { padding: 80px 0; position: relative; z-index: 1; }
+
+    .s-label {
+      font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--orange);
+      font-weight: 700; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .s-label::before {
+      content:''; width:22px; height:2px;
+      background: var(--orange); border-radius:2px;
+    }
+    .s-title {
+      font-size: clamp(26px,4vw,40px);
+      font-weight: 800; line-height: 1.18;
+      letter-spacing: -.5px; margin-bottom: 14px;
+      background: linear-gradient(135deg, #fff 30%, var(--blue));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .s-desc {
+      font-size: 15px; color: var(--dim);
+      line-height: 1.7; max-width: 520px; margin-bottom: 44px;
+    }
+
+    /* ══════════ ADVANTAGES ══════════ */
+    .adv-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 18px;
+    }
+    .adv-card {
+      background: rgba(0,28,65,.48);
+      border: 1px solid rgba(0,100,180,.18);
+      border-radius: 20px; padding: 30px 26px;
+      position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .6s ease, transform .6s ease, border-color .3s, box-shadow .3s;
+    }
+    .adv-card.visible { opacity:1; transform:translateY(0); }
+    .adv-card::before {
+      content:''; position:absolute;
+      top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg,transparent,var(--blue),transparent);
+      transform:scaleX(0); transition:transform .4s;
+    }
+    .adv-card:hover { border-color:rgba(0,150,200,.4); box-shadow:0 18px 40px rgba(0,0,0,.28),0 0 30px rgba(0,100,200,.09); }
+    .adv-card:hover::before { transform:scaleX(1); }
+    .adv-card:hover { transform:translateY(-6px) !important; }
+
+    .adv-icon {
+      width: 50px; height: 50px; border-radius: 13px;
+      background: rgba(0,100,200,.12);
+      border: 1px solid rgba(0,100,200,.22);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--blue); margin-bottom: 18px;
+      transition: background .3s, border-color .3s;
+    }
+    .adv-card:hover .adv-icon { background:rgba(0,120,200,.22); border-color:rgba(0,150,200,.42); }
+    .adv-num { font-size: 10px; color: rgba(0,180,230,.38); font-weight:700; letter-spacing:.1em; margin-bottom:8px; }
+    .adv-title { font-size: 16px; font-weight:700; color:#e0f2ff; line-height:1.3; margin-bottom:10px; }
+    .adv-text { font-size: 13px; color: var(--dim); line-height:1.65; }
+
+    /* ══════════ FOR WHOM ══════════ */
+    .aud-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 14px;
+      opacity:0; transform:translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .aud-grid.visible { opacity:1; transform:translateY(0); }
+
+    .aud-card {
+      background: rgba(0,22,52,.5);
+      border: 1px solid rgba(0,100,180,.14);
+      border-radius: 16px; padding: 22px;
+      display: flex; gap: 16px; align-items: flex-start;
+      transition: border-color .3s, background .3s;
+    }
+    .aud-card:hover { border-color:rgba(224,112,0,.35); background:rgba(224,112,0,.05); }
+    .aud-icon {
+      width: 42px; height: 42px; flex-shrink:0;
+      border-radius: 11px;
+      background: rgba(224,112,0,.1);
+      border: 1px solid rgba(224,112,0,.2);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--orange);
+    }
+    .aud-name { font-size: 14px; font-weight:700; color:#e0f0ff; margin-bottom:5px; }
+    .aud-desc { font-size: 12.5px; color: var(--dim); line-height:1.55; }
+
+    /* ══════════ BENEFITS ══════════ */
+    .ben-wrap {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px; align-items: start;
+      opacity:0; transform:translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .ben-wrap.visible { opacity:1; transform:translateY(0); }
+
+    .ben-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .ben-item {
+      display: flex; align-items: flex-start; gap: 13px;
+      padding: 14px 18px;
+      background: rgba(0,22,52,.42);
+      border: 1px solid rgba(0,100,180,.12);
+      border-radius: 13px;
+      transition: border-color .3s;
+    }
+    .ben-item:hover { border-color:rgba(0,150,200,.28); }
+    .ben-check {
+      width: 20px; height: 20px; flex-shrink:0;
+      border-radius:50%;
+      background: rgba(0,150,200,.14);
+      border: 1.5px solid rgba(0,150,200,.38);
+      display:flex; align-items:center; justify-content:center;
+      color: var(--blue); margin-top:2px;
+    }
+    .ben-text { font-size:13.5px; color:rgba(200,225,250,.8); line-height:1.5; }
+    .ben-text strong { color:#e8f4ff; }
+
+    /* Stats panel */
+    .ben-stats {
+      background: rgba(0,22,52,.55);
+      border: 1px solid rgba(0,100,180,.18);
+      border-radius: 20px; padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .stat-row {
+      text-align: center; padding: 20px 0;
+    }
+    .stat-row + .stat-row {
+      border-top: 1px solid rgba(0,100,180,.15);
+    }
+    .stat-val {
+      display: block; font-size: 40px; font-weight:800; line-height:1;
+      margin-bottom:6px;
+      background: linear-gradient(135deg, var(--blue), #00d8ee);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .stat-val.orange {
+      background: linear-gradient(135deg, var(--orange), #ffaa40);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .stat-label { font-size:11px; color:rgba(180,210,240,.45); text-transform:uppercase; letter-spacing:.07em; }
+
+    /* ══════════ CTA SECTION ══════════ */
+    .cta-section { padding: 80px 0 100px; position:relative; z-index:1; }
+    .cta-box {
+      background: rgba(0,22,52,.62);
+      border: 1px solid rgba(0,100,180,.22);
+      border-radius: 28px; padding: 64px 48px;
+      text-align:center; position:relative; overflow:hidden;
+      opacity:0; transform:translateY(28px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .cta-box.visible { opacity:1; transform:translateY(0); }
+    .cta-box::before {
+      content:'';
+      position:absolute; top:0; left:8%; right:8%; height:2px;
+      background:linear-gradient(90deg,transparent,var(--blue) 30%,#00d8ee 50%,var(--orange) 70%,transparent);
+      box-shadow:0 0 20px rgba(0,150,200,.35);
+    }
+    /* Subtle inner glow */
+    .cta-box::after {
+      content:'';
+      position:absolute; inset:0;
+      background:radial-gradient(ellipse at 50% 0%, rgba(0,100,180,.07), transparent 70%);
+      pointer-events:none;
+    }
+    .cta-title {
+      font-size:clamp(24px,4vw,42px);
+      font-weight:800; line-height:1.15; margin-bottom:16px;
+      background:linear-gradient(135deg,#fff 20%,var(--blue) 55%,var(--orange));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .cta-desc {
+      font-size:15px; color:var(--dim);
+      max-width:480px; margin:0 auto 38px; line-height:1.7;
+    }
+    .cta-actions {
+      display:flex; flex-direction:column;
+      align-items:center; gap:16px;
+    }
+    .cta-sublink {
+      font-size:12px; color:rgba(0,180,230,.55);
+      text-decoration:none;
+      display:inline-flex; align-items:center; gap:6px;
+      transition:color .2s;
+    }
+    .cta-sublink:hover { color:var(--blue); }
+
+    /* ══════════ FOOTER ══════════ */
+    .footer {
+      border-top:1px solid rgba(0,100,180,.12);
+      padding:28px 0; text-align:center;
+      font-size:11px; color:rgba(100,150,200,.28);
+      letter-spacing:.05em; position:relative; z-index:1;
+    }
+
+    /* ══════════ RESPONSIVE ══════════ */
+    @media (max-width: 900px) {
+      .hero-inner { grid-template-columns:1fr; gap:40px; }
+      .hero-visual { order:-1; }
+      .hero-card { max-width:460px; margin:0 auto; }
+      .adv-grid { grid-template-columns:1fr; }
+      .ben-wrap { grid-template-columns:1fr; }
+      .ben-stats { display:grid; grid-template-columns:repeat(3,1fr); }
+      .stat-row + .stat-row { border-top:none; border-left:1px solid rgba(0,100,180,.15); }
+    }
+    @media (max-width: 640px) {
+      .aud-grid { grid-template-columns:1fr; }
+      .cta-box { padding:40px 24px; }
+      .section { padding:60px 0; }
+      .ben-stats { grid-template-columns:1fr; }
+      .stat-row + .stat-row { border-left:none; border-top:1px solid rgba(0,100,180,.15); }
+    }
+    @media (max-width: 420px) {
+      .hero { padding:90px 0 50px; }
+      .wrap { padding:0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- ══ NAV ══ -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">ПромГидравлика-С</a>
+      <a href="vizitka.html" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </svg>
+        Контакты специалиста
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ══ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-inner">
+
+        <div class="hero-left">
+          <div class="tag">
+            <span class="tag-dot"></span>
+            Российское производство · Импортозамещение
+          </div>
+          <h1 class="hero-title">Гидро&shy;цилиндры под&nbsp;ваши задачи</h1>
+          <p class="hero-desc">
+            Проектируем и производим гидроцилиндры для оборудования и спецтехники, в том числе в рамках импортозамещения
+          </p>
+          <div class="hero-btns">
+            <a href="tel:+79226828889" class="btn" id="heroBtn">
+              <span class="btn-icon">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+                </svg>
+              </span>
+              Получить консультацию
+            </a>
+            <a href="#advantages" class="btn-ghost">
+              Узнать подробнее
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero visual — технические параметры -->
+        <div class="hero-visual">
+          <div class="hero-card">
+            <p class="hc-label">Технические характеристики</p>
+            <div class="hc-spec">
+              <div class="hc-row">
+                <span class="hc-key">Рабочее давление</span>
+                <span class="hc-val accent">до 40 МПа</span>
+              </div>
+              <div class="hc-row">
+                <span class="hc-key">Диаметр цилиндра</span>
+                <span class="hc-val">40 — 500 мм</span>
+              </div>
+              <div class="hc-row">
+                <span class="hc-key">Ход штока</span>
+                <span class="hc-val">до 6 000 мм</span>
+              </div>
+              <div class="hc-row">
+                <span class="hc-key">Исполнение</span>
+                <span class="hc-val">по чертежу заказчика</span>
+              </div>
+              <div class="hc-row">
+                <span class="hc-key">Уплотнения</span>
+                <span class="hc-val">Parker · Trelleborg</span>
+              </div>
+            </div>
+            <div class="hc-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M9 12l2 2 4-4"/>
+              </svg>
+              Испытание давлением перед отгрузкой
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="hr"></div>
+
+  <!-- ══ ADVANTAGES ══ -->
+  <section class="section" id="advantages">
+    <div class="wrap">
+      <p class="s-label">Технические преимущества</p>
+      <h2 class="s-title">Почему наши гидроцилиндры</h2>
+      <p class="s-desc">Разрабатываем конструкцию под конкретные нагрузки, давление и условия эксплуатации</p>
+
+      <div class="adv-grid">
+
+        <div class="adv-card">
+          <div class="adv-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <p class="adv-num">01</p>
+          <h3 class="adv-title">Высокое усилие при компактных габаритах</h3>
+          <p class="adv-text">Оптимальная конструкция обеспечивает максимальное рабочее усилие при минимальных размерах — идеально для стеснённых условий монтажа и спецтехники</p>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M2 12 C5 6 8 6 12 12 S19 18 22 12"/>
+              <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <p class="adv-num">02</p>
+          <h3 class="adv-title">Плавность и точность хода</h3>
+          <p class="adv-text">Прецизионная обработка поверхностей и качественные уплотнения гарантируют равномерное движение штока без рывков и задержек на всём ходу</p>
+        </div>
+
+        <div class="adv-card">
+          <div class="adv-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="3.5"/>
+              <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+              <line x1="12" y1="2"  x2="12" y2="5.5"/>
+              <line x1="12" y1="18.5" x2="12" y2="22"/>
+              <line x1="2"  y1="12" x2="5.5"  y2="12"/>
+              <line x1="18.5" y1="12" x2="22" y2="12"/>
+            </svg>
+          </div>
+          <p class="adv-num">03</p>
+          <h3 class="adv-title">Точное позиционирование исполнительного механизма</h3>
+          <p class="adv-text">Высокая повторяемость и стабильность хода обеспечивают точное положение рабочего органа в заданной точке каждого цикла работы</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="hr"></div>
+
+  <!-- ══ FOR WHOM ══ -->
+  <section class="section" id="audience">
+    <div class="wrap">
+      <p class="s-label">Для кого</p>
+      <h2 class="s-title">Кому подходит</h2>
+      <p class="s-desc">Производим гидроцилиндры для широкого спектра отраслей — от строительной техники до промышленных прессов</p>
+
+      <div class="aud-grid">
+
+        <div class="aud-card">
+          <div class="aud-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M2 20h20M4 20V10l8-6 8 6v10"/>
+              <rect x="9" y="14" width="6" height="6"/>
+            </svg>
+          </div>
+          <div>
+            <p class="aud-name">Строительная и дорожная техника</p>
+            <p class="aud-desc">Экскаваторы, бульдозеры, краны, погрузчики — надёжные цилиндры для тяжёлых нагрузок и круглосуточной работы</p>
+          </div>
+        </div>
+
+        <div class="aud-card">
+          <div class="aud-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 2v4M12 18v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M2 12h4M18 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+          </div>
+          <div>
+            <p class="aud-name">Промышленное оборудование</p>
+            <p class="aud-desc">Прессы, подъёмники, зажимные устройства, конвейеры — прецизионные решения для производственных линий</p>
+          </div>
+        </div>
+
+        <div class="aud-card">
+          <div class="aud-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+          </div>
+          <div>
+            <p class="aud-name">Сельскохозяйственная техника</p>
+            <p class="aud-desc">Тракторы, комбайны, опрыскиватели — цилиндры с защитой от загрязнений для работы в жёстких полевых условиях</p>
+          </div>
+        </div>
+
+        <div class="aud-card">
+          <div class="aud-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="aud-name">Импортозамещение</p>
+            <p class="aud-desc">Полный аналог зарубежных цилиндров — восстановление производства без простоя, в сжатые сроки, по документации заказчика</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="hr"></div>
+
+  <!-- ══ BENEFITS ══ -->
+  <section class="section" id="benefits">
+    <div class="wrap">
+      <p class="s-label">Почему выгодно</p>
+      <h2 class="s-title">Работать с нами выгодно</h2>
+
+      <div class="ben-wrap">
+
+        <ul class="ben-list">
+          <li class="ben-item">
+            <span class="ben-check">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M2 6l3 3 5-5"/>
+              </svg>
+            </span>
+            <span class="ben-text"><strong>Собственное производство</strong> — короткие сроки изготовления без зависимости от цепочек поставок</span>
+          </li>
+          <li class="ben-item">
+            <span class="ben-check">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M2 6l3 3 5-5"/>
+              </svg>
+            </span>
+            <span class="ben-text"><strong>Индивидуальное проектирование</strong> — разработаем под нестандартные габариты, давление и монтажные условия</span>
+          </li>
+          <li class="ben-item">
+            <span class="ben-check">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M2 6l3 3 5-5"/>
+              </svg>
+            </span>
+            <span class="ben-text"><strong>Испытание каждого изделия</strong> — проверка под давлением перед отгрузкой, документальная гарантия качества</span>
+          </li>
+          <li class="ben-item">
+            <span class="ben-check">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M2 6l3 3 5-5"/>
+              </svg>
+            </span>
+            <span class="ben-text"><strong>Сервисный центр</strong> — ремонт и техническое обслуживание гидроцилиндров любых марок и производителей</span>
+          </li>
+          <li class="ben-item">
+            <span class="ben-check">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M2 6l3 3 5-5"/>
+              </svg>
+            </span>
+            <span class="ben-text"><strong>Прямой производитель</strong> — без посредников, прозрачное ценообразование, оперативная обратная связь</span>
+          </li>
+        </ul>
+
+        <div class="ben-stats">
+          <div class="stat-row">
+            <span class="stat-val">100%</span>
+            <span class="stat-label">Контроль качества</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-val orange">РФ</span>
+            <span class="stat-label">Собственное производство</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-val">∞</span>
+            <span class="stat-label">Индивидуальный подход</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ══ -->
+  <section class="cta-section">
+    <div class="wrap">
+      <div class="cta-box">
+        <h2 class="cta-title">Нужен гидроцилиндр?<br>Рассчитаем за 1 день</h2>
+        <p class="cta-desc">Отправьте технические требования или чертёж — подберём решение и озвучим стоимость в течение рабочего дня</p>
+        <div class="cta-actions">
+          <a href="tel:+79226828889" class="btn" id="ctaBtn">
+            <span class="btn-icon">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+              </svg>
+            </span>
+            Оставить заявку
+          </a>
+          <a href="vizitka.html" class="cta-sublink">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            Контакты специалиста
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="footer">
+    <div class="wrap">
+      © 2025 · ООО «ПромГидравлика-С» · Гидроцилиндры · г. Ижевск
+    </div>
+  </footer>
+
+  <!-- Yandex.Metrika counter — замените XXXXXXXX на номер вашего счётчика -->
+  <script type="text/javascript">
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    ym(XXXXXXXX,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/XXXXXXXX" style="position:absolute; left:-9999px;" alt=""/></div></noscript>
+  <!-- /Yandex.Metrika counter -->
+
+  <script>
+    // Ripple on buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        const r = document.createElement('span');
+        r.classList.add('ripple');
+        const rect = btn.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+        btn.appendChild(r);
+        setTimeout(() => r.remove(), 700);
+      });
+    });
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        el.classList.add('visible');
+        // Stagger direct card children
+        const children = el.querySelectorAll('.adv-card, .aud-card, .ben-item');
+        children.forEach((c, i) => {
+          c.style.transitionDelay = `${i * 0.08}s`;
+          c.classList.add('visible');
+        });
+        io.unobserve(el);
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.adv-card, .aud-grid, .ben-wrap, .cta-box').forEach(el => io.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
+
+</body>
+</html>
